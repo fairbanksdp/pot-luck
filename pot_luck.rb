@@ -1,8 +1,8 @@
 require './scan'
 people = open('people.csv')
 $people = people.each_line.map do|txt|
-  #name,email,guests,food =  ("#{txt}").split(',')
-  "#{txt}"
+  name,email,guests,food = txt.split(',')
+  arr = [name,email,guests,food]
 end 
 people.close
 foods = open('foods.csv')
@@ -32,13 +32,11 @@ def rsvp()
     people.close
     
     n,n,n,food = info.split(',')
-    $foods.delete(food)
+    $foods.delete("#{food}")
     $foods.push(nil)
     foods = open('foods.csv','w')
-    counter = 0
-    foods.each_line do|line|
-      foods.replace_puts($foods[counter])
-      counter += 1
+    $foods.each do|info|
+      foods.write info
     end
 
     foods.close
